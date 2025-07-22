@@ -1,6 +1,7 @@
 import argparse
 from ggit.init import git_init
 from ggit.hash_object import hash_object
+from ggit.add import git_add
 
 def main():
     parser = argparse.ArgumentParser()
@@ -13,12 +14,19 @@ def main():
     hash_parser = subparsers.add_parser("hash-object")
     hash_parser.add_argument("path")
 
+    # add
+    add_parser = subparsers.add_parser("add")
+    add_parser.add_argument("path")
+
+
     args = parser.parse_args()
 
-    sif args.command == "init":
+    if args.command == "init":
         git_init()
     elif args.command == "hash-object":
         hash_object(args.path)
+    elif args.command == "add":
+        git_add(args.path)
     else:
         print(f"Unknown command {args.command}")
     
