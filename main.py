@@ -3,6 +3,10 @@ from ggit.init import git_init
 from ggit.hash_object import hash_object
 from ggit.add import git_add
 from ggit.write_tree import write_tree
+from ggit.commit import commit
+from ggit.ls_files import ls_files
+from ggit.commit_tree import commit_tree
+from ggit.show_ref import show_ref
 
 
 def main():
@@ -23,6 +27,22 @@ def main():
     # write-tree
     subparsers.add_parser("write-tree")
 
+    # commit-tree
+    commit_parser = subparsers.add_parser("commit-tree")
+    commit_parser.add_argument("tree_sha")
+    commit_parser.add_argument("-m", "--message", required=True)
+    commit_parser.add_argument("-p", "--parent")
+
+    # commit  
+    commit_porcelain = subparsers.add_parser("commit")
+    commit_porcelain.add_argument("-m", "--message", required=True)
+
+    # ls-files
+    subparsers.add_parser("ls-files")
+    
+    # show-ref
+    subparsers.add_parser("show-ref")
+
     args = parser.parse_args()
 
     if args.command == "init":
@@ -33,6 +53,14 @@ def main():
         git_add(args.path)
     elif args.command == "write-tree":
         write_tree()
+    elif args.command == "commit-tree":
+        commit_tree(args.tree_sha, args.message, args.parent)
+    elif args.command == "commit":
+        commit(args.message)
+    elif args.command == "ls-files":
+        ls_files()
+    elif args.command == "show-ref":
+        show_ref()
     else:
         print(f"Unknown command {args.command}")
     
