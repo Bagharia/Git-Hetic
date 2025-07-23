@@ -1,4 +1,3 @@
-ls_files.py
 import os
 
 INDEX_PATH = ".ggit/index"

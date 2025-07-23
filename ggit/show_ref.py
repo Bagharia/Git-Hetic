@@ -1,4 +1,3 @@
-show_ref.py
 import os
 
 def git_show_ref():
