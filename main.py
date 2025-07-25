@@ -3,10 +3,11 @@ from ggit.init import git_init
 from ggit.hash_object import hash_object
 from ggit.add import git_add
 from ggit.write_tree import write_tree
-from ggit.commit import commit
-from ggit.ls_files import ls_files
+from ggit.commit import it_commit
+from ggit.ls_files import git_ls_files
 from ggit.commit_tree import commit_tree
-from ggit.show_ref import show_ref
+from ggit.show_ref import git_show_ref
+from ggit.log import git_log
 
 
 def main():
@@ -43,6 +44,9 @@ def main():
     # show-ref
     subparsers.add_parser("show-ref")
 
+    # log
+    subparsers.add_parser("log")
+
     args = parser.parse_args()
 
     if args.command == "init":
@@ -56,11 +60,13 @@ def main():
     elif args.command == "commit-tree":
         commit_tree(args.tree_sha, args.message, args.parent)
     elif args.command == "commit":
-        commit(args.message)
+        it_commit(args.message)
     elif args.command == "ls-files":
-        ls_files()
+        git_ls_files()
     elif args.command == "show-ref":
-        show_ref()
+        git_show_ref()
+    elif args.command == "log":
+        git_log()
     else:
         print(f"Unknown command {args.command}")
     

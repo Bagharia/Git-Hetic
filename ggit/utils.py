@@ -17,3 +17,16 @@ def compute_sha1_and_store(content: bytes, obj_type="blob") -> str:
         f.write(zlib.compress(store))
 
     return sha
+
+def get_object(sha: str) -> bytes:
+    """Récupère le contenu d'un objet Git par son SHA"""
+    dir_path = f".ggit/objects/{sha[:2]}"
+    file_path = f"{dir_path}/{sha[2:]}"
+    
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"Object {sha} not found")
+    
+    with open(file_path, "rb") as f:
+        compressed_data = f.read()
+    
+    return zlib.decompress(compressed_data)
