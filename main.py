@@ -11,6 +11,7 @@ from ggit.log import git_log
 from ggit.ls_tree import git_ls_tree
 from ggit.rev_parse import git_rev_parse
 from ggit.status import git_status
+from ggit.checkout import git_checkout
 
 def main():
     parser = argparse.ArgumentParser()
@@ -59,6 +60,10 @@ def main():
     
     # status
     subparsers.add_parser("status")
+    
+    # checkout
+    checkout_parser = subparsers.add_parser("checkout")
+    checkout_parser.add_argument("commit_ref")
 
     args = parser.parse_args()
 
@@ -86,6 +91,8 @@ def main():
         git_rev_parse(args.ref)
     elif args.command == "status":
         git_status()
+    elif args.command == "checkout":
+        git_checkout(args.commit_ref)
     else:
         print(f"Unknown command {args.command}")
     

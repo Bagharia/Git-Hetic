@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Script de test pour vérifier toutes les commandes Git
 Ce script teste toutes les fonctionnes disponibles dans le système Git

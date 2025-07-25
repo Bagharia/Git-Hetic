@@ -28,7 +28,7 @@ def extract_sha(output):
 
 def test_workflow():
     """Teste un workflow Git complet"""
-    print("🧪 Test du workflow Git complet")
+    print(" Test du workflow Git complet")
     print("="*50)
     
     # 1. Initialisation
@@ -36,7 +36,7 @@ def test_workflow():
     stdout, stderr, code = run_cmd("init")
     print(f"   Sortie: {stdout}")
     if code != 0:
-        print(f"   ❌ Erreur: {stderr}")
+        print(f"    Erreur: {stderr}")
         return False
     
     # 2. Créer un fichier de test
@@ -115,7 +115,7 @@ def test_workflow():
     stdout, stderr, code = run_cmd("rev-parse HEAD")
     print(f"   Sortie: {stdout}")
     
-    print("\n✅ Test terminé!")
+    print("\n Test terminé!")
     return True
 
 def cleanup():
@@ -127,24 +127,24 @@ def cleanup():
             print(f"   Supprimé: {file}")
 
 def main():
-    print("🚀 Démarrage des tests Git")
+    print(" Démarrage des tests Git")
     print("="*50)
     
     try:
         success = test_workflow()
         if success:
-            print("\n🎉 Tous les tests ont réussi!")
+            print("\n Tous les tests ont réussi!")
         else:
-            print("\n❌ Certains tests ont échoué")
+            print("\n Certains tests ont échoué")
     except KeyboardInterrupt:
-        print("\n⏹️  Tests interrompus")
+        print("\n  Tests interrompus")
     except Exception as e:
-        print(f"\n💥 Erreur: {e}")
+        print(f"\n Erreur: {e}")
     finally:
-        print("\n🧹 Nettoyage...")
+        print("\n Nettoyage...")
         cleanup()
     
-    print("\n🏁 Fin des tests")
+    print("\n Fin des tests")
 
 if __name__ == "__main__":
     main() 
