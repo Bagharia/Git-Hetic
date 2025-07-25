@@ -10,6 +10,7 @@ from ggit.show_ref import git_show_ref
 from ggit.log import git_log
 from ggit.ls_tree import git_ls_tree
 from ggit.rev_parse import git_rev_parse
+from ggit.status import git_status
 
 def main():
     parser = argparse.ArgumentParser()
@@ -55,6 +56,9 @@ def main():
     # rev-parse
     rev_parse_parser = subparsers.add_parser("rev-parse")
     rev_parse_parser.add_argument("ref")
+    
+    # status
+    subparsers.add_parser("status")
 
     args = parser.parse_args()
 
@@ -80,6 +84,8 @@ def main():
         git_ls_tree(args.tree_sha)
     elif args.command == "rev-parse":
         git_rev_parse(args.ref)
+    elif args.command == "status":
+        git_status()
     else:
         print(f"Unknown command {args.command}")
     
