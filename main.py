@@ -9,7 +9,7 @@ from ggit.commit_tree import commit_tree
 from ggit.show_ref import git_show_ref
 from ggit.log import git_log
 from ggit.ls_tree import git_ls_tree
-
+from ggit.rev_parse import git_rev_parse
 
 def main():
     parser = argparse.ArgumentParser()
@@ -52,6 +52,10 @@ def main():
     ls_tree_parser = subparsers.add_parser("ls-tree")
     ls_tree_parser.add_argument("tree_sha")
 
+    # rev-parse
+    rev_parse_parser = subparsers.add_parser("rev-parse")
+    rev_parse_parser.add_argument("ref")
+
     args = parser.parse_args()
 
     if args.command == "init":
@@ -74,6 +78,8 @@ def main():
         git_log()
     elif args.command == "ls-tree":
         git_ls_tree(args.tree_sha)
+    elif args.command == "rev-parse":
+        git_rev_parse(args.ref)
     else:
         print(f"Unknown command {args.command}")
     
