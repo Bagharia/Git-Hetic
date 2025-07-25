@@ -8,6 +8,7 @@ from ggit.ls_files import git_ls_files
 from ggit.commit_tree import commit_tree
 from ggit.show_ref import git_show_ref
 from ggit.log import git_log
+from ggit.ls_tree import git_ls_tree
 
 
 def main():
@@ -46,6 +47,10 @@ def main():
 
     # log
     subparsers.add_parser("log")
+    
+    # ls-tree
+    ls_tree_parser = subparsers.add_parser("ls-tree")
+    ls_tree_parser.add_argument("tree_sha")
 
     args = parser.parse_args()
 
@@ -67,6 +72,8 @@ def main():
         git_show_ref()
     elif args.command == "log":
         git_log()
+    elif args.command == "ls-tree":
+        git_ls_tree(args.tree_sha)
     else:
         print(f"Unknown command {args.command}")
     

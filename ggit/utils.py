@@ -30,3 +30,13 @@ def get_object(sha: str) -> bytes:
         compressed_data = f.read()
     
     return zlib.decompress(compressed_data)
+
+def get_object_type(sha: str) -> str:
+    """Récupère le type d'un objet Git par son SHA"""
+    data = get_object(sha)
+    if b'\x00' not in data:
+        raise ValueError(f"Invalid object format for {sha}")
+    
+    header = data.split(b'\x00')[0]
+    obj_type = header.split(b' ')[0].decode()
+    return obj_type

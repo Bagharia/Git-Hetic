@@ -63,4 +63,49 @@ def it_commit(message):
     else:
         print("Premier commit!")
         
+def read_tree_recursive(tree_sha):
+    """Lit récursivement un arbre et retourne tous les fichiers avec leurs chemins"""
+    from ggit.utils import get_object
     
+    entries = {}
+    
+    def read_tree_internal(sha, prefix=""):
+        data = get_object(sha)
+        if not data.startswith(b'tree '):
+            raise ValueError(f"Object {sha} is not a tree")
+        
+        # Skip header
+        null_pos = data.find(b'\x00')
+        if null_pos == -1:
+            raise ValueError(f"Invalid tree object {sha}")
+        
+        tree_data = data[null_pos + 1:]
+        
+        # Parse tree entries
+        pos = 0
+        while pos < len(tree_data):
+            # Find space after mode
+            space_pos = tree_data.find(b' ', pos)
+            if space_pos == -1:
+                break
+            
+            # Find null byte after name
+            null_pos = tree_data.find(b'\x00', space_pos)
+            if null_pos == -1:
+                break
+            
+            mode = tree_data[pos:space_pos].decode()
+            name = tree_data[space_pos + 1:null_pos].decode()
+            sha = tree_data[null_pos + 1:null_pos + 21].hex()
+            
+            full_path = os.path.join(prefix, name) if prefix else name
+            
+            if mode.startswith('100'):  # blob
+                entries[full_path] = sha
+            elif mode.startswith('400'):  # tree
+                read_tree_internal(sha, full_path)
+            
+            pos = null_pos + 21
+    
+    read_tree_internal(tree_sha)
+    return entries
